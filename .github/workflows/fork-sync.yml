@@ -1,9 +1,9 @@
 name: Fork Sync
 
 on:
-  # 毎週日曜日の午前2時（UTC）に実行
+  # 毎日午前3時（日本時間）に実行 = UTC 18時
   schedule:
-    - cron: '0 2 * * 0'
+    - cron: '0 18 * * *'
   # 手動実行も可能
   workflow_dispatch:
 
@@ -22,19 +22,19 @@ jobs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-
+        
     - name: Add upstream remote
       run: |
         git remote add upstream https://github.com/aws-samples/generative-ai-use-cases.git
-
-    - name: Fetch upstream
+        
+    - name: Fetch all branches
       run: |
         git fetch upstream
-
+        git fetch origin
+        
     - name: Check for conflicts
       id: check
       run: |
-        # 単純な競合チェック
         if git merge-tree $(git merge-base HEAD upstream/main) HEAD upstream/main | grep -q "^@@"; then
           echo "has_conflicts=true" >> $GITHUB_OUTPUT
           echo "⚠️ Potential conflicts detected"
@@ -42,20 +42,26 @@ jobs:
           echo "has_conflicts=false" >> $GITHUB_OUTPUT
           echo "✅ No conflicts detected"
         fi
-
+        
     - name: Safe merge if no conflicts
       if: steps.check.outputs.has_conflicts == 'false'
       run: |
         git checkout main
-        # .github/workflows/ を保護してマージ
+        git reset --hard origin/main
         git merge upstream/main --no-edit
         git checkout HEAD -- .github/workflows/fork-sync.yml
         git add .github/workflows/fork-sync.yml
         git commit --amend --no-edit || true
-        git push origin main
-
+        git push --force origin main
+        
     - name: Create issue if conflicts detected
       if: steps.check.outputs.has_conflicts == 'true'
-      run: |
-        echo "Conflicts detected. Manual sync required."
-        echo "Please manually merge upstream changes."
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Fork sync conflicts detected',
+            body: 'Conflicts detected during automatic sync. Manual intervention required.'
+          })
