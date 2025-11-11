@@ -45,16 +45,16 @@
       "us.anthropic.claude-sonnet-4-5-20250929-v1:0",   
       "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
       "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "jp.anthropic.claude-sonnet-4-5-20250929-v1:0"
     ],
     "imageGenerationModelIds": ["amazon.nova-canvas-v1:0"],
     "videoGenerationModelIds": ["amazon.nova-reel-v1:0"],
     "speechToSpeechModelIds": ["amazon.nova-sonic-v1:0"],
     "endpointNames": [],
-    "agentEnabled": false,
-    "searchAgentEnabled": false,
-    "searchEngine": "Brave",
-    "searchApiKey": "",
+    "agentEnabled": true,
+    "searchAgentEnabled": true,
+    "searchEngine": "Tavily",
+    "searchApiKey": "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",
     "agents": [],
     "inlineAgents": false,
     "mcpEnabled": false,
@@ -115,9 +115,5 @@
     "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": true,
     "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
     "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": true
-    "agentEnabled": true,
-    "searchAgentEnabled": true,
-    "searchEngine": "Tavily",
-    "searchApiKey": "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"
   }
 }
