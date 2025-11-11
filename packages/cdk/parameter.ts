@@ -22,6 +22,10 @@ const envs: Record<string, Partial<StackInput>> = {
   // },
   dev: {
     // Parameters for development environment
+    agentEnabled: true,
+    searchAgentEnabled: true,
+    searchEngine: 'Tavily',
+    searchApiKey: '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',
   },
   staging: {
     // Parameters for staging environment
