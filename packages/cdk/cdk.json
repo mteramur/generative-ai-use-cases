@@ -115,5 +115,9 @@
     "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": true,
     "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
     "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": true
+    "agentEnabled": true,
+    "searchAgentEnabled": true,
+    "searchEngine": "Tavily",
+    "searchApiKey": "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"
   }
 }
