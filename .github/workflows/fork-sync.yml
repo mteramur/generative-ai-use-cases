@@ -37,7 +37,7 @@ jobs:
       run: |
         if git merge-tree $(git merge-base HEAD upstream/main) HEAD upstream/main | grep -q "^@@"; then
           echo "has_conflicts=true" >> $GITHUB_OUTPUT
-          echo "⚠️ Potential conflicts detected"
+          echo "⚠️ Conflicts detected, skipping sync"
         else
           echo "has_conflicts=false" >> $GITHUB_OUTPUT
           echo "✅ No conflicts detected"
@@ -53,15 +53,3 @@ jobs:
         git add .github/workflows/fork-sync.yml
         git commit --amend --no-edit || true
         git push --force origin main
-        
-    - name: Create issue if conflicts detected
-      if: steps.check.outputs.has_conflicts == 'true'
-      uses: actions/github-script@v7
-      with:
-        script: |
-          github.rest.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: 'Fork sync conflicts detected',
-            body: 'Conflicts detected during automatic sync. Manual intervention required.'
-          })
