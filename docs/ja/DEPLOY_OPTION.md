@@ -803,6 +803,7 @@ const envs: Record<string, Partial<StackInput>> = {
 "anthropic.claude-3-opus-20240229-v1:0",
 "anthropic.claude-3-sonnet-20240229-v1:0",
 "anthropic.claude-3-haiku-20240307-v1:0",
+"global.anthropic.claude-opus-4-5-20251101-v1:0",
 "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
 "global.anthropic.claude-haiku-4-5-20251001-v1:0"
 "global.anthropic.claude-sonnet-4-20250514-v1:0",
@@ -977,6 +978,7 @@ const envs: Record<string, Partial<StackInput>> = {
 "anthropic.claude-3-opus-20240229-v1:0",
 "anthropic.claude-3-sonnet-20240229-v1:0",
 "anthropic.claude-3-haiku-20240307-v1:0",
+"global.anthropic.claude-opus-4-5-20251101-v1:0",
 "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
 "global.anthropic.claude-sonnet-4-20250514-v1:0",
 "us.anthropic.claude-opus-4-1-20250805-v1:0",
@@ -1511,6 +1513,38 @@ const envs: Record<string, Partial<StackInput>> = {
   }
 }
 ```
+
+## ブランディングカスタマイズ
+
+ランディングページに表示されるロゴとタイトルをカスタマイズできます。
+
+### 設定方法
+
+1. `packages/cdk/branding.json` にカスタム設定を作成：
+
+```json
+{
+  "logoPath": "your-logo.svg",
+  "title": "カスタムタイトル"
+}
+```
+
+2. カスタムSVGロゴファイルを `packages/web/src/assets/` に配置：
+
+```
+packages/web/src/assets/your-logo.svg
+```
+
+### パラメータ
+
+- `logoPath` (オプション): `packages/web/src/assets/` 内のSVGロゴファイル名
+- `title` (オプション): 表示するカスタムタイトルテキスト
+
+### 注意事項
+
+- `branding.json` が存在しない場合、デフォルトのAWSロゴとタイトルが使用されます
+- カスタムロゴはSVG形式のみサポートされています
+- ロゴは80x80ピクセル（size-20クラス）で表示されます
 
 ## セキュリティ関連設定
 
